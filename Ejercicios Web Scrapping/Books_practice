@@ -1,0 +1,34 @@
+import requests
+from bs4 import BeautifulSoup
+
+URL = "https://books.toscrape.com/"
+
+response = requests.get(URL)
+
+response.encoding = 'utf-8'
+
+if response.status_code == 200:
+    soup = BeautifulSoup(response.text, 'html.parser')
+
+
+for product in soup.find_all('div', class_='product_price'):
+        # Extraemos el precio dentro de la clase 'price_color'
+        price = product.find('p', class_='price_color')
+        if price:
+            print(price.text)
+
+        star_rating = product.find('p', class_='star-rating')
+        
+        # Verificamos la clase de star-rating para obtener el número de estrellas
+        if star_rating:
+            # Extraemos la clase (por ejemplo, 'One', 'Two', etc.)
+            rating_class = star_rating.get('class')[1]  # La clase que indica el número de estrellas
+            star_count = {
+                'One': 1,
+                'Two': 2,
+                'Three': 3,
+                'Four': 4,
+                'Five': 5
+            }
+            # Imprimimos el número de estrellas
+            print(f"Estrellas: {star_count[rating_class]}")

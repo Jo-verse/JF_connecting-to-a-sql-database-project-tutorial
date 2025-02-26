@@ -61,3 +61,5 @@ print("Even Numbers")
 for i in range(1, 237, 3):
     print(i)
 
+
+# 11) Print a Pattern
